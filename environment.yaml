@@ -1,0 +1,12 @@
+name: archery
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - numpy=1.26.4
+  - matplotlib=3.8.3
+  - pip:
+    - opencv-python~=4.9.0.80
+    - ultralytics~=8.2.31

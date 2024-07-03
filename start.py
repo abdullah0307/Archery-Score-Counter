@@ -29,9 +29,9 @@ def process_image(image_path, model_target_bbox):
 
     # Reading the target image
     image = cv2.imread(image_path)
-    cv2.imshow("input", image)
-    cv2.imwrite("input.jpg", image)
-    cv2.waitKey(0)
+    # cv2.imshow("input", image)
+    # cv2.imwrite("input.jpg", image)
+    # cv2.waitKey(0)
     result = model_target_bbox(image)
     extracted_coor = result[0].boxes.xyxy.tolist()
 
@@ -46,16 +46,16 @@ def process_image(image_path, model_target_bbox):
         # Resize the extracted area
         extracted_area = cv2.resize(extracted_area, (600, 600))
 
-        cv2.imshow("extracted_area", extracted_area)
-        cv2.imwrite("extracted_area.jpg", extracted_area)
-        cv2.waitKey(0)
+        # cv2.imshow("extracted_area", extracted_area)
+        # cv2.imwrite("extracted_area.jpg", extracted_area)
+        # cv2.waitKey(0)
 
         # Making the hsv of the extracted area
         hsv = cv2.cvtColor(extracted_area, cv2.COLOR_BGR2HSV)
 
-        cv2.imshow("hsv", hsv)
-        cv2.imwrite("hsv_input.jpg", hsv)
-        cv2.waitKey(0)
+        # cv2.imshow("hsv", hsv)
+        # cv2.imwrite("hsv_input.jpg", hsv)
+        # cv2.waitKey(0)
 
         lower_yellow = np.array([20, 210, 100])  # Lower boundary of yellow (H, S, V)
         upper_yellow = np.array([30, 255, 255])  # Upper boundary of yellow (H, S, V)
@@ -111,9 +111,9 @@ def process_image(image_path, model_target_bbox):
             cv2.circle(extracted_area, center, radius, (0, 255, 0), 2)
             cv2.circle(extracted_area, center, 5, (255, 0, 0), -1)
 
-            cv2.imshow("center circle", extracted_area)
-            cv2.imwrite("center circle.jpg", extracted_area)
-            cv2.waitKey(0)
+            # cv2.imshow("center circle", extracted_area)
+            # cv2.imwrite("center circle.jpg", extracted_area)
+            # cv2.waitKey(0)
 
             # Make the prediction from the target and center points
             result = model_target_points(extracted_area, iou=0.3, conf=0.2)
@@ -123,9 +123,9 @@ def process_image(image_path, model_target_bbox):
             for radius in radii:
                 cv2.circle(extracted_area, center, radius, (255, 0, 0), 2)
 
-            cv2.imshow("target_rings", extracted_area)
-            cv2.imwrite("target_rings.jpg", extracted_area)
-            cv2.waitKey(0)
+            # cv2.imshow("target_rings", extracted_area)
+            # cv2.imwrite("target_rings.jpg", extracted_area)
+            # cv2.waitKey(0)
 
             # Displaying all the target points
             points = [i for i in result[0].boxes.data.tolist() if int(i[-1]) == 1 and i[-2] > 0.3]
@@ -134,9 +134,9 @@ def process_image(image_path, model_target_bbox):
                 cx, cy = x1 + (x2 - x1) // 2, y1 + (y2 - y1) // 2
                 cv2.circle(extracted_area, (cx, cy), 2, (0, 255, 0), -1)
 
-            cv2.imshow("target_points", extracted_area)
-            cv2.imwrite("target_points.jpg", extracted_area)
-            cv2.waitKey(0)
+            # cv2.imshow("target_points", extracted_area)
+            # cv2.imwrite("target_points.jpg", extracted_area)
+            # cv2.waitKey(0)
 
             # Count the scores and get the point scores
             total_score, point_scores = count_scores(center, points, radii)
@@ -146,24 +146,24 @@ def process_image(image_path, model_target_bbox):
             for (cx, cy, score) in point_scores:
                 cv2.putText(extracted_area, str(score), (cx, cy - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
-            cv2.imshow("target_scores", extracted_area)
-            cv2.imwrite("target_scores.jpg", extracted_area)
-            cv2.waitKey(0)
+            # cv2.imshow("target_scores", extracted_area)
+            # cv2.imwrite("target_scores.jpg", extracted_area)
+            # cv2.waitKey(0)
 
             # Display total score on the image
             cv2.putText(extracted_area, f"Total Score: {total_score}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
             cv2.imshow("Target Area", extracted_area)
-            cv2.imshow("region", mask)
-            cv2.imwrite("mask.jpg", mask)
-            cv2.imwrite("result.jpg", extracted_area)
+            # cv2.imshow("region", mask)
+            # cv2.imwrite("mask.jpg", mask)
+            # cv2.imwrite("result.jpg", extracted_area)
             cv2.waitKey()
             cv2.destroyAllWindows()
 
 
 # Loading both models
-model_target_bbox = YOLO("Models/target_bbox.pt")
-model_target_points = YOLO("Models/target_and centers.pt")
+model_target_bbox = YOLO("Models/target bbox.pt")
+model_target_points = YOLO("Models/target and centers.pt")
 
 # Directory containing the images
 image_directory = "targetPointsDataset/train/images"
@@ -174,4 +174,4 @@ for filename in os.listdir(image_directory):
         print(filename)
         image_path = os.path.join(image_directory, filename)
         process_image(image_path, model_target_bbox)
-        break
+        # break
