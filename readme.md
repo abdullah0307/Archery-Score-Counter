@@ -62,18 +62,12 @@ python -m pip check
 
 ### Step-by-Step Instructions
 
-1. **Prepare Your Data**:
-   - Ensure your input data is placed in the appropriate directory (e.g., `data/input`).
-
-2. **Run the Script**:
+1. **Run the Script**:
    - Execute the main script to start the process.
    
    ```bash
    python start.py
    ```
-
-3. **View Results**:
-   - The output will be saved in the `output` directory or displayed on the screen as specified.
 
 ## References
 
